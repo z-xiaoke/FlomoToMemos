@@ -3,11 +3,11 @@ import requests
 from memos.util import getType
 
 # 需要修改 Host 与 Cookie.txt
-Host = 'http://xxxxxx'  # 改成你的网址 结尾不要斜杠 例如: https://memos.thatcoder.cn
+Host = 'http://memo.0604520.xyz'  # 改成你的网址 结尾不要斜杠 例如: https://memos.thatcoder.cn
 # UserName = 'root'  # 登入账号
 # PassWord = '123456'   # 登入密码
-# ApiBase = f'{Host}/api' # 0.12左右的版本
-ApiBase = f'{Host}/api/v1'  # 0.14之后的版本
+ApiBase = f'{Host}/api' # 0.12左右的版本
+# ApiBase = f'{Host}/api/v1'  # 0.14之后的版本
 ApiSignIn = ApiBase + '/auth/signin'
 ApiBlob = ApiBase + '/resource/blob'
 ApiMemo = ApiBase + '/memo'
@@ -42,13 +42,14 @@ def upFile(filePath):
         file_data = f.read()
     # payload的encode()一个也不能删!!!
     payload = f'--{boundary}\r\nContent-Disposition: form-data; name="file";'.encode()
-    payload += f'filename="{fileName}"\r\nContent-Type: {getType(file_ext)}\r\n\r\n'.encode()
+    payload += f'filename="{file_name}"\r\nContent-Type: {getType(file_ext)}\r\n\r\n'.encode()
     payload += file_data
     payload += f'\r\n--{boundary}--'.encode()
     headers = Headers
     headers['Content-Length'] = str(os.path.getsize("flomo/" + filePath))
     headers['Content-Type'] = f'multipart/form-data; boundary={boundary}'
     response = requests.post(ApiBlob, headers=headers, data=payload)  # files参数上传方案 requests_toolbelt包
+    print(response.json())
     return response.json()
 
 

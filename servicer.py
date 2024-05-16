@@ -34,8 +34,9 @@ for memo in memos:
     memo_data['content'] = [c.text.strip() for c in content] if content else 'None'
 
     # 获取文件
-    files = memo.find('div', class_='files').find_all('img')
-    memo_data['filePath'] = [file['src'] for file in files] if files else "None"
+    if memo.find('div', class_='files') is not None:
+     files = memo.find('div', class_='files').find_all('img')
+     memo_data['filePath'] = [file['src'] for file in files] if files else "None"
 
     data.append(memo_data)
 

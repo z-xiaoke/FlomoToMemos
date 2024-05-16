@@ -21,12 +21,13 @@ def add():
 
         # 文件处理
         resourceIdList = None
-        if flomo['filePath'] != "None":
+        print(flomo)
+        if 'filePath' in flomo and flomo['filePath'] != "None":
             resourceIdList = []
             for f in flomo['filePath']:
                 fileObject = upFile(f)
                 time.sleep(1.5)
-                resourceIdList.append(fileObject['id'])
+                resourceIdList.append(fileObject['data']['id'])
 
         # 内容处理
         if resourceIdList is not None or flomo['content'] != "None":
